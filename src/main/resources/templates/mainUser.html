@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>main page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container">
+    <br>
+    <h1 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!</h1>
+    <br>
+    <span th:text="${notActivated}"/>
+    <div th:switch="${user.activationCode}">
+        <div th:case="null">
+            <form action="/makeOrder" method="get">
+                <button type="submit" class="btn btn-warning">Оформить заказ</button>
+            </form>
+        </div>
+        <div th:case="*">
+            <form action="/makeOrder" method="get">
+                <input type="submit" disabled value="оформить заказ"/>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div th:switch="${user.activationCode}">
+        <div th:case="null">
+            <div th:switch="${orders.size()}">
+                <div th:case="0">
+                    <h3>У вас пока нет заказов.</h3>
+                </div>
+                <div th:case="*">
+                    <h3>Заказы:</h3>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Номер заказа</th>
+                            <th>Адрес пункта отправки</th>
+                            <th>Адрес пункта назначения</th>
+                            <th>Дата выполнения заказа</th>
+                            <th>Дата оформления заказа</th>
+                            <th>Работники, назначенные на заказ</th>
+                            <th>Характеристика автомобиля, назначенного на заказ</th>
+                            <th>Примерная цена</th>
+                            <th>Отменить заказ</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.addressFrom}"></td>
+                            <td th:text="${order.addressTo}"></td>
+                            <td th:text="${order.targetDate}+' '+${order.targetTime}"></td>
+                            <td th:text="${order.creationDate}"></td>
+                            <td th:text="${order.workers}"></td>
+                            <td th:text="${order.truck.description}"></td>
+                            <td th:text="${order.price}+'₽'"></td>
+                            <td><a th:href="@{deleteOrder/{id}(id=${order.id})}">отменить заказ</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

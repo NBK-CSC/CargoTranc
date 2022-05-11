@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>new Employee or Car</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container">
+    <div class="car-form">
+        <br>
+        <h1>Добавить автомобиль</h1>
+        <form action="/admin/addCar" method="post">
+            <br>
+            <div><label> Тип автомобиля<a style="color:red">*</a></label></div>
+            <div>
+                <select class="form-select" aria-label="Default select example">
+                    <option value="Жёсткий 4м/2.2м/2м Груз 1500кг" selected="selected">Жёсткий 4м/2.2м/2м Груз 1500кг
+                    </option>
+                    <option value="Тент 3м/1.5м/2м Груз 950кг">Тент 3м/1.5м/2м Груз 950кг</option>
+                    <option value="Жёсткий 1.6м/1м/1м Груз 500кг">Жёсткий 1.6м/1м/1м Груз 500кг</option>
+                    <option value="Жёсткий 13.6м/2.5м/2.45м Груз 20т">Жёсткий 13.6м/2.5м/2.45м Груз 20т</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <span style="color:red" th:text="${carNumber}"/>
+            </div>
+            <label><input type="text" name="carNumber" id="carNumber" th:value="${carNumber_paste}"
+                               placeholder="Номер автомобиля"/> </label>
+            <button type="submit" class="btn btn-warning">Принять</button>
+        </form>
+    </div>
+    <div class="employee-form">
+        <br>
+        <h1>Добавить сотрудника</h1>
+        <form action="/admin/addEmployee" method="post">
+            <br>
+            <div>
+                <span style="color:red" th:text="${name}"/>
+            </div>
+            <label><input type="text" name="name" id="name" th:value="${name_paste}" placeholder="Имя и фамилия"/>
+            </label>
+            <button type="submit" class="btn btn-warning">Принять</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
